@@ -235,7 +235,11 @@ rm -rf ParaView
 
 paraview_git_url=git://paraview.org/ParaView.git
 
-$git_command clone -o kitware -b release --recursive $paraview_git_url
+$git_command clone -o kitware -b master --recursive $paraview_git_url
+cd ParaView
+$git_command checkout -b v3.12.0 v3.12.0
+$git_command submodule init
+$git_command submodule update
 }
 
 
@@ -314,6 +318,25 @@ setup_cross_compilers
 do_toolchains
 do_python_build_cross
 do_osmesa_build_cross
+do_paraview_configure_cross
+do_paraview_build_cross
+}
+
+do_justpv()
+{
+setup_native_compilers
+do_paraview_configure_hosttools
+do_paraview_build_hosttools
+setup_cross_compilers
+do_toolchains
+do_paraview_configure_cross
+do_paraview_build_cross
+}
+
+do_justcross()
+{
+setup_native_compilers
+setup_cross_compilers
 do_paraview_configure_cross
 do_paraview_build_cross
 }

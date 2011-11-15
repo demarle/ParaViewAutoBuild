@@ -46,6 +46,7 @@ $cmake_command \
 "$cxx_flags" \
 -DCMAKE_INSTALL_PREFIX:PATH="$paraview_install_dir" \
 -C $paraview_source_dir/CMake/TryRunResults-ParaView3-bgl-xlc.cmake \
+-DPARAVIEW_BUILD_PLUGIN_PointSprite:BOOL=OFF \
 $paraview_source_dir
 
 #-DPARAVIEW_ENABLE_COPROCESSING=1 \

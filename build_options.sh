@@ -3,8 +3,8 @@
 #platform=bgp
 #platform=eureka
 #platform=jaguarpf
-#platform=jaguarpfgcc
-platform=krakengcc
+platform=jaguarpfgcc
+#platform=krakengcc
 #platform=franklingcc
 
 set_bgl_options()
@@ -33,9 +33,9 @@ set_eureka_options()
 
 set_jaguarpfgcc_options()
 {
-  base=/ccs/proj/tur013/marionp/gccbuild
+  base=/autofs/na4_proj/csc035/demarle/pv3.12.0/GNUBUILD
   toolchain_file=cray-cnl-toolchain.cmake
-  make_command="make -j2"
+  make_command="nice make -j8"
   osmesa_config_name=craycle-osmesa-gnu
   cross_compiler_module=PrgEnv-gnu
 }

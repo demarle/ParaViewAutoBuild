@@ -26,5 +26,6 @@ $cmake_command \
 -DOSMESA_LIBRARY="$osmesa_install_dir/lib/libOSMesa.so" \
 -DOSMESA_INCLUDE_DIR="$osmesa_install_dir/include" \
 -DCMAKE_BUILD_TYPE:STRING="Release" \
+-DPARAVIEW_BUILD_PLUGIN_PointSprite:BOOL=OFF \
 -DCMAKE_INSTALL_PREFIX:PATH="$paraview_install_dir" \
 $paraview_source_dir
