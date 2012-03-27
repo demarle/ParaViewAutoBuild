@@ -37,14 +37,14 @@ toolchain_file=$base/toolchains/$toolchain_file
 
 setup_native_compilers()
 {
-module unload PrgEnv-pgi PrgEnv-gnu Base-opts
+module unload PrgEnv-pgi PrgEnv-gnu
 module load gcc
 }
 
 setup_cross_compilers()
 {
 module unload gcc
-module load Base-opts $cross_compiler_module
+module load $cross_compiler_module
 }
 
 grab()
@@ -237,9 +237,9 @@ paraview_git_url=git://paraview.org/ParaView.git
 
 $git_command clone -o kitware -b master --recursive $paraview_git_url
 cd ParaView
-$git_command checkout -b v3.12.0 v3.12.0
-$git_command submodule init
-$git_command submodule update
+#$git_command checkout -b v3.12.0 v3.12.0
+#$git_command submodule init
+#$git_command submodule update
 }
 
 

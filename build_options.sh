@@ -33,7 +33,7 @@ set_eureka_options()
 
 set_jaguarpfgcc_options()
 {
-  base=/autofs/na4_proj/csc035/demarle/pv3.12.0/GNUBUILD
+  base=/autofs/na4_proj/csc035/demarle/pv3.14.0/GNUBUILD
   toolchain_file=cray-cnl-toolchain.cmake
   make_command="nice make -j8"
   osmesa_config_name=craycle-osmesa-gnu

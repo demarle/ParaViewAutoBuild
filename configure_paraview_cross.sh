@@ -26,11 +26,16 @@ $cmake_command \
 -DBUILD_TESTING=0 \
 \
 -DVTK_USE_SYSTEM_HDF5:BOOL=1 \
--DHDF5_LIBRARIES:FILEPATH=/opt/cray/hdf5-parallel/1.8.5.0/hdf5-parallel-gnu/lib/libhdf5.a \
--DHDF5_LIBRARY:FILEPATH=/opt/cray/hdf5-parallel/1.8.5.0/hdf5-parallel-gnu/lib/libhdf5.a \
--DHDF5_INCLUDE_DIRS:PATH=/opt/cray/hdf5-parallel/1.8.5.0/hdf5-parallel-gnu/include \
--DHDF5_INCLUDE_DIR:PATH=/opt/cray/hdf5-parallel/1.8.5.0/hdf5-parallel-gnu/include \
+-DHDF5_LIBRARIES:FILEPATH=\
+/opt/cray/hdf5-parallel/1.8.7/gnu/46/lib/libhdf5.a \
+-DHDF5_LIBRARY:FILEPATH=\
+/opt/cray/hdf5-parallel/1.8.7/gnu/46/lib/libhdf5.a \
+-DHDF5_INCLUDE_DIRS:PATH=\
+/opt/cray/hdf5-parallel/1.8.7/gnu/46/include \
+-DHDF5_INCLUDE_DIR:PATH=\
+/opt/cray/hdf5-parallel/1.8.7/gnu/46/include \
 -DVTK_USE_SYSTEM_ZLIB:BOOL=1 \
+-DMPI_EXTRA_LIBRARY:FILEPATH=/opt/cray/mpt/5.4.1/xt/gemini/mpich2-gnu/46/lib/libmpichcxx.a \
 -DZLIB_INCLUDE_DIR:PATH=/usr/include \
 -DZLIB_LIBRARY:FILEPATH=/usr/lib64/libz.a \
 \
