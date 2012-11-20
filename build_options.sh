@@ -1,9 +1,9 @@
 
 #platform=bgl
-#platform=bgp
+platform=bgp
 #platform=eureka
 #platform=jaguarpf
-platform=jaguarpfgcc
+#platform=jaguarpfgcc
 #platform=krakengcc
 #platform=franklingcc
 
@@ -18,10 +18,10 @@ set_bgl_options()
 
 set_bgp_options()
 {
-  base=/scratch/pmarion/build-bgp
+  base=/scratch/demarle/autobuildxlc/buildXLC
   toolchain_file=BlueGeneP-xl-static.cmake
   make_command="make -j2"
-  paraview_cross_cxx_flags="-O2 -qstrict -qarch=450d -qtune=450 -qcpluscmt"
+  paraview_cross_cxx_flags="-O2"
   osmesa_config_name=bgp-osmesa-xlc
 }
 

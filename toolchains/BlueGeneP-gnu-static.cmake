@@ -5,7 +5,7 @@ set(CMAKE_SYSTEM_NAME BlueGeneP-static)
 set(BGP_GNU_COMPILER_SEARCH_PATHS
   /usr/local/bin
   /usr/bin
-  /bgsys/drivers/ppcfloor/gnu-linux/bin)
+  /soft/apps/current/gcc-4.3.2/gnu-linux/bin)
 
 # GNU C Compilers
 find_program(CMAKE_C_COMPILER       powerpc-bgp-linux-gcc      ${BGP_GNU_COMPILER_SEARCH_PATHS})
@@ -18,5 +18,5 @@ find_program(MPI_COMPILER NAMES mpicxx mpic++ mpiCC mpicc
   PATHS 
   /usr/local/bin
   /usr/bin
-  /bgsys/drivers/ppcfloor/comm/bin
-  /bgsys/drivers/ppcfloor/comm/default/bin)
+  /soft/apps/darshan/bin/default
+)

@@ -27,17 +27,19 @@ $cmake_command \
 \
 -DVTK_USE_SYSTEM_HDF5:BOOL=1 \
 -DHDF5_LIBRARIES:FILEPATH=\
-/opt/cray/hdf5-parallel/1.8.7/gnu/46/lib/libhdf5.a \
+/soft/apps/current/hdf5-1.8.9/lib/libhdf5.a \
 -DHDF5_LIBRARY:FILEPATH=\
-/opt/cray/hdf5-parallel/1.8.7/gnu/46/lib/libhdf5.a \
+/soft/apps/current/hdf5-1.8.9/lib/libhdf5.a \
 -DHDF5_INCLUDE_DIRS:PATH=\
-/opt/cray/hdf5-parallel/1.8.7/gnu/46/include \
+/soft/apps/current/hdf5-1.8.9/include \
 -DHDF5_INCLUDE_DIR:PATH=\
-/opt/cray/hdf5-parallel/1.8.7/gnu/46/include \
+/soft/apps/current/hdf5-1.8.9/include \
+\
 -DVTK_USE_SYSTEM_ZLIB:BOOL=1 \
--DMPI_EXTRA_LIBRARY:FILEPATH=/opt/cray/mpt/5.4.1/xt/gemini/mpich2-gnu/46/lib/libmpichcxx.a \
--DZLIB_INCLUDE_DIR:PATH=/usr/include \
--DZLIB_LIBRARY:FILEPATH=/usr/lib64/libz.a \
+-DZLIB_LIBRARY:FILEPATH=\
+/soft/apps/current/zlib-1.2.5/lib/libz.a \
+-DZLIB_INCLUDE_DIR:PATH=\
+/soft/apps/current/zlib-1.2.5/include \
 \
 -DPYTHON_INCLUDE_DIR="$python_install_dir/include/python2.5" \
 -DPYTHON_LIBRARY="$python_install_dir/lib/libpython2.5.a" \
@@ -50,12 +52,25 @@ $cmake_command \
 -DCMAKE_BUILD_TYPE:STRING="Release" \
 "$cxx_flags" \
 -DCMAKE_INSTALL_PREFIX:PATH="$paraview_install_dir" \
--C $paraview_source_dir/CMake/TryRunResults-ParaView3-bgl-xlc.cmake \
+-DPARAVIEW_BUILD_PLUGIN_AdiosReader:BOOL=OFF\
+-DPARAVIEW_BUILD_PLUGIN_AnalyzeNIfTIReaderWriter:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_ForceTime:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_H5PartReader:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_Manta:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_Moments:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_Nektar:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_PacMan:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_PointSprite:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_Prism:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_SLACTools:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_SQToolkit:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_SierraPlotTools:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_StreamingView:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_SurfaceLIC:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_VaporPlugin:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_pvblot:BOOL=OFF \
+-C $paraview_source_dir/CMake/TryRunResults-ParaView3-bgl-xlc.cmake \
 $paraview_source_dir
-
-#-DPARAVIEW_ENABLE_COPROCESSING=1 \
-#-DBUILD_COPROCESSING_ADAPTORS=1 \
-#-DBUILD_FORTRAN_COPROCESSING_ADAPTORS=1 \
-#-DBUILD_PYTHON_COPROCESSING_ADAPTOR=1 \
-#-DBUILD_PHASTA_ADAPTOR=1 \

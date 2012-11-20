@@ -15,15 +15,15 @@ if [ -z "$base" ]; then
 fi
 
 if [ -z "$cross_compiler_module" ]; then
-  echo "build_options.sh did not specify cross_compiler_module"
-  exit 1
+  echo "warning build_options.sh did not specify cross_compiler_module"
+  #exit 1
 fi
 
 
 install_base=$base/install
 xinstall_base=$base/install/cross
 git_install_dir=$install_base/git-1.7.3
-cmake_install_dir=$install_base/cmake-2.8.4
+cmake_install_dir=$install_base/cmake-git
 osmesa_install_dir=$install_base/osmesa-7.6.1
 osmesa_xinstall_dir=$xinstall_base/osmesa-7.6.1
 python_install_dir=$install_base/python-2.5.2
@@ -37,14 +37,14 @@ toolchain_file=$base/toolchains/$toolchain_file
 
 setup_native_compilers()
 {
-module unload PrgEnv-pgi PrgEnv-gnu
-module load gcc
+export CC=/usr/bin/gcc
+export CXX=/usr/bin/g++
 }
 
 setup_cross_compilers()
 {
-module unload gcc
-module load $cross_compiler_module
+export CC=/soft/apps/ibmcmp-aug2012/vac/bg/9.0/bin/bgxlc
+export CXX=/soft/apps/ibmcmp-aug2012/vacpp/bg/9.0/bin/bgxlC
 }
 
 grab()
@@ -96,6 +96,11 @@ mkdir -p $base/source/cmake
 cd $base/source/cmake
 
 $git_command clone -b next git://cmake.org/cmake.git CMakeNext
+
+cd CMakeNext
+$git_command checkout -b v2.8.10.1 v2.8.10.1
+cd ..
+
 mkdir build
 cd build
 ../CMakeNext/bootstrap --prefix=$cmake_install_dir
@@ -148,6 +153,7 @@ cp -r $source $source-cmakeified
 source=$source-cmakeified
 cp $script_dir/add_cmake_files_to_python2-5-2.patch ./
 patch -p1 -d $source < add_cmake_files_to_python2-5-2.patch
+patch -p1 -d $source < python_xlc.patch
 
 rm -rf build-cross
 mkdir build-cross
@@ -237,9 +243,17 @@ paraview_git_url=git://paraview.org/ParaView.git
 
 $git_command clone -o kitware -b master --recursive $paraview_git_url
 cd ParaView
-#$git_command checkout -b v3.12.0 v3.12.0
-#$git_command submodule init
-#$git_command submodule update
+$git_command checkout -b v3.14.1 v3.14.1
+$git_command submodule init
+$git_command submodule update
+
+cp $script_dir/paraview_xlc.patch ./
+patch -p1 -d $base/source/paraview/ParaView < paraview_xlc.patch
+
+cd VTK
+cp $script_dir/vtk_xlc.patch ./
+patch -p1 -d $base/source/paraview/ParaView/VTK < vtk_xlc.patch
+
 }
 
 
@@ -283,15 +297,15 @@ $make_command pvHostTools
 do_paraview_build_cross()
 {
 cd $base/source/paraview/build-cross
-$make_command
+$make_command 
 }
 
 
 do_paraview_native_prereqs()
 {
 do_git
-do_cmake
-#do_cmake_git
+#do_cmake
+do_cmake_git
 do_python_download
 do_python_build_native
 do_osmesa_download
@@ -341,9 +355,14 @@ do_paraview_configure_cross
 do_paraview_build_cross
 }
 
+do_newpv()
+{
+  do_paraview_download_git
+  do_justpv
+}
 
 # this line is needed so that the "module" command will work
-source /opt/modules/default/init/bash
+#source /opt/modules/default/init/bash
 
 if [ -z $1 ]
 then

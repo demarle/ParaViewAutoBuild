@@ -1,0 +1,28 @@
+diff --git a/ParaViewCore/VTKExtensions/vtkSortedTableStreamer.cxx b/ParaViewCore/VTKExtensions/vtkSortedTableStreamer.cxx
+index 40ae19f..a9f8172 100644
+--- a/ParaViewCore/VTKExtensions/vtkSortedTableStreamer.cxx
++++ b/ParaViewCore/VTKExtensions/vtkSortedTableStreamer.cxx
+@@ -158,7 +158,7 @@ public:
+ };
+ //----------------------------------------------------------------------------
+ template<class T>
+-class vtkSortedTableStreamer::Internals : public InternalsBase
++class vtkSortedTableStreamer::Internals : public vtkSortedTableStreamer::InternalsBase
+ {
+ public:
+   class Histogram
+diff --git a/Utilities/VTKClientServer/Wrapping/vtkWrapClientServer.c b/Utilities/VTKClientServer/Wrapping/vtkWrapClientServer.c
+index 55e15f3..6dc4b86 100644
+--- a/Utilities/VTKClientServer/Wrapping/vtkWrapClientServer.c
++++ b/Utilities/VTKClientServer/Wrapping/vtkWrapClientServer.c
+@@ -1098,8 +1098,8 @@ void vtkParseOutput(FILE *fp, FileInfo *fileInfo)
+   fprintf(fp,"#define VTK_WRAPPING_CXX\n");
+   if(strcmp("vtkObjectBase", data->Name) != 0)
+     {
+-    /* Block inclusion of full streams. */
+-    fprintf(fp,"#define VTK_STREAMS_FWD_ONLY\n");
++    ///* Block inclusion of full streams. */
++    //fprintf(fp,"#define VTK_STREAMS_FWD_ONLY\n");
+     }
+   fprintf(fp,"#include \"vtkSystemIncludes.h\"\n");
+   fprintf(fp,"#include \"%s.h\"\n",data->Name);

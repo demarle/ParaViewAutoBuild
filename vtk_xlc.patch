@@ -1,0 +1,88 @@
+diff --git a/CMake/vtkThirdParty.cmake b/CMake/vtkThirdParty.cmake
+index 8e68792..a412b42 100644
+--- a/CMake/vtkThirdParty.cmake
++++ b/CMake/vtkThirdParty.cmake
+@@ -3,11 +3,11 @@ MACRO(VTK_THIRD_PARTY_OPTION upper lower)
+   OPTION(VTK_USE_SYSTEM_${upper} "Use the system's ${lower} library." OFF)
+   MARK_AS_ADVANCED(VTK_USE_SYSTEM_${upper})
+   IF(VTK_USE_SYSTEM_${upper})
+-    IF(EXISTS ${CMAKE_ROOT}/Modules/Find${upper}.cmake)
++    IF(EXISTS ${CMAKE_ROOT}/Modules/Find${upper}.cmake AND (NOT (${upper} STREQUAL "HDF5")))
+       INCLUDE(${CMAKE_ROOT}/Modules/Find${upper}.cmake)
+-    ELSE(EXISTS ${CMAKE_ROOT}/Modules/Find${upper}.cmake)
++    ELSE(EXISTS ${CMAKE_ROOT}/Modules/Find${upper}.cmake AND (NOT (${upper} STREQUAL "HDF5")))
+       INCLUDE(${VTK_CMAKE_DIR}/Find${upper}.cmake)
+-    ENDIF(EXISTS ${CMAKE_ROOT}/Modules/Find${upper}.cmake)
++    ENDIF(EXISTS ${CMAKE_ROOT}/Modules/Find${upper}.cmake AND (NOT (${upper} STREQUAL "HDF5")))
+     MARK_AS_ADVANCED(${upper}_INCLUDE_DIR ${upper}_LIBRARY)
+     IF(${upper}_FOUND)
+       SET(VTK_${upper}_LIBRARIES ${${upper}_LIBRARIES})
+diff --git a/Hybrid/vtkAxisActor.cxx b/Hybrid/vtkAxisActor.cxx
+index e235fb3..1b91f01 100644
+--- a/Hybrid/vtkAxisActor.cxx
++++ b/Hybrid/vtkAxisActor.cxx
+@@ -1064,7 +1064,10 @@ void vtkAxisActor::PrintSelf(ostream& os, vtkIndent indent)
+       ;
+     }
+ 
+-  os << indent << "DeltaMajor: " << this->DeltaMajor << endl;
++  os << indent << "DeltaMajor: "
++     << this->DeltaMajor[0] << ","
++     << this->DeltaMajor[1] << ","
++     << this->DeltaMajor[2] << endl;
+   os << indent << "DeltaMinor: " << this->DeltaMinor << endl;
+   os << indent << "DeltaRangeMajor: " << this->DeltaRangeMajor << endl;
+   os << indent << "DeltaRangeMinor: " << this->DeltaRangeMinor << endl;
+@@ -1098,7 +1101,10 @@ void vtkAxisActor::PrintSelf(ostream& os, vtkIndent indent)
+ 
+   os << indent << "DrawGridlines: " << this->DrawGridlines << endl;
+ 
+-  os << indent << "MajorStart: " << this->MajorStart << endl;
++  os << indent << "MajorStart: "
++     << this->MajorStart[0] << ","
++     << this->MajorStart[1] << ","
++     << this->MajorStart[2] << endl;
+   os << indent << "MinorStart: " << this->MinorStart << endl;
+ 
+   os << indent << "AxisPosition: " << this->AxisPosition << endl;
+diff --git a/IO/vtkMPASReader.cxx b/IO/vtkMPASReader.cxx
+index 105f61f..77df743 100644
+--- a/IO/vtkMPASReader.cxx
++++ b/IO/vtkMPASReader.cxx
+@@ -2364,7 +2364,8 @@ void vtkMPASReader::PrintSelf(ostream& os, vtkIndent indent)
+   this->Superclass::PrintSelf(os, indent);
+   os << indent << "FileName: "
+      << (this->FileName?this->FileName:"NULL") << "\n";
+-  os << indent << "VerticalLevelRange: " << this->VerticalLevelRange << "\n";
++  os << indent << "VerticalLevelRange: "
++     << this->VerticalLevelRange[0] << "," << this->VerticalLevelRange[1] << "\n";
+   os << indent << "this->NumberOfPointVars: " << this->NumberOfPointVars << "\n";
+   os << indent << "this->NumberOfCellVars: " << this->NumberOfCellVars << "\n";
+   os << indent << "this->MaximumPoints: " << this->MaximumPoints << "\n";
+diff --git a/Rendering/vtkResliceCursorActor.cxx b/Rendering/vtkResliceCursorActor.cxx
+index 6783467..d91721d 100644
+--- a/Rendering/vtkResliceCursorActor.cxx
++++ b/Rendering/vtkResliceCursorActor.cxx
+@@ -332,8 +332,8 @@ void vtkResliceCursorActor::PrintSelf(ostream& os, vtkIndent indent)
+ {
+   this->Superclass::PrintSelf(os,indent);
+ 
+-  vtkPrintMemberObjectMacro( CursorCenterlineActor, os, indent );
+-  vtkPrintMemberObjectMacro( CursorAlgorithm, os, indent );
++  //vtkPrintMemberObjectMacro( CursorCenterlineActor, os, indent );
++  //vtkPrintMemberObjectMacro( CursorAlgorithm, os, indent );
+ 
+   // this->CursorCenterlineMapper[3];
+   // this->CursorCenterlineActor[3];
+diff --git a/Utilities/vtksqlite/vtk_sqlite3.c b/Utilities/vtksqlite/vtk_sqlite3.c
+index 8dca189..01f75d4 100644
+--- a/Utilities/vtksqlite/vtk_sqlite3.c
++++ b/Utilities/vtksqlite/vtk_sqlite3.c
+@@ -369,6 +369,7 @@
+ ** Older versions of Vtk_Sqlite used an optional THREADSAFE macro.
+ ** We support that for legacy
+ */
++#define VTK_SQLITE_THREADSAFE 0
+ #if !defined(VTK_SQLITE_THREADSAFE)
+ #if defined(THREADSAFE)
+ # define VTK_SQLITE_THREADSAFE THREADSAFE
