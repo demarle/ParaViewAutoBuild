@@ -1,19 +1,35 @@
-diff -r Python-2.5.2/Python/dynload_shlib.c Python-2.5.2-cmakeified/Python/dynload_shlib.c
-94,95c94,95
-<                               p = (dl_funcptr) dlsym(handles[i].handle,
-<                                                      funcname);
----
->                               p = (dl_funcptr) NULL;//dlsym(handles[i].handle,
->                                                     // funcname);
-130c130
-<       handle = dlopen(pathname, dlopenflags);
----
->       handle = NULL;//dlopen(pathname, dlopenflags);
-133c133
-<               const char *error = dlerror();
----
->               const char *error = NULL;//dlerror();
-141c141
-<       p = (dl_funcptr) dlsym(handle, funcname);
----
->       p = (dl_funcptr) NULL;//dlsym(handle, funcname);
+diff -u a/Python-2.5.2-cmakeified/Python/dynload_shlib.c b/Python-2.5.2-cmakeified/Python/dynload_shlib.c
+--- a/Python-2.5.2-cmakeified/Python/dynload_shlib.c	2006-01-04 01:30:17.000000000 +0000
++++ b/Python-2.5.2-cmakeified/Python/dynload_shlib.c	2012-11-15 21:40:19.490026302 +0000
+@@ -91,8 +91,8 @@
+ 		for (i = 0; i < nhandles; i++) {
+ 			if (statb.st_dev == handles[i].dev &&
+ 			    statb.st_ino == handles[i].ino) {
+-				p = (dl_funcptr) dlsym(handles[i].handle,
+-						       funcname);
++				p = (dl_funcptr) NULL;//dlsym(handles[i].handle,
++						      // funcname);
+ 				return p;
+ 			}
+ 		}
+@@ -127,10 +127,10 @@
+ 	pathname = pathbuf;
+ #endif
+ 
+-	handle = dlopen(pathname, dlopenflags);
++	handle = NULL;//dlopen(pathname, dlopenflags);
+ 
+ 	if (handle == NULL) {
+-		const char *error = dlerror();
++		const char *error = NULL;//dlerror();
+ 		if (error == NULL)
+ 			error = "unknown dlopen() error";
+ 		PyErr_SetString(PyExc_ImportError, error);
+@@ -138,6 +138,6 @@
+ 	}
+ 	if (fp != NULL && nhandles < 128)
+ 		handles[nhandles++].handle = handle;
+-	p = (dl_funcptr) dlsym(handle, funcname);
++	p = (dl_funcptr) NULL;//dlsym(handle, funcname);
+ 	return p;
+ }

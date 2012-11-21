@@ -148,12 +148,17 @@ do_python_build_cross()
 {
 cd $base/source/python
 source=Python-2.5.2
+
+#now cmakeify python to make it easier to cross compile
 rm -rf $source-cmakeified
 cp -r $source $source-cmakeified
 source=$source-cmakeified
 cp $script_dir/add_cmake_files_to_python2-5-2.patch ./
 patch -p1 -d $source < add_cmake_files_to_python2-5-2.patch
-patch -p1 -d $source < python_xlc.patch
+
+#a hack to remove dyld on this platform
+cp $script_dir/python_xlc.patch ./
+patch -p1 -d $base/source/python < python_xlc.patch
 
 rm -rf build-cross
 mkdir build-cross
