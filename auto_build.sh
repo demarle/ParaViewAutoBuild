@@ -45,6 +45,7 @@ setup_cross_compilers()
 {
 export CC=/soft/apps/ibmcmp-aug2012/vac/bg/9.0/bin/bgxlc
 export CXX=/soft/apps/ibmcmp-aug2012/vacpp/bg/9.0/bin/bgxlC
+export HDF5_ROOT=/soft/apps/current/hdf5-1.8.9
 }
 
 grab()
@@ -246,9 +247,9 @@ rm -rf ParaView
 
 paraview_git_url=git://paraview.org/ParaView.git
 
-$git_command clone -o kitware -b master --recursive $paraview_git_url
+$git_command clone -o kitware --recursive $paraview_git_url 
 cd ParaView
-$git_command checkout -b v3.14.1 v3.14.1
+$git_command checkout -b V3.98.0-RC3 v3.98.0-RC3
 $git_command submodule init
 $git_command submodule update
 
@@ -259,6 +260,9 @@ cd VTK
 cp $script_dir/vtk_xlc.patch ./
 patch -p1 -d $base/source/paraview/ParaView/VTK < vtk_xlc.patch
 
+cd ../ThirdParty/protobuf/vtkprotobuf
+cp $script_dir/protobuf_xlc.patch ./
+patch -p1 -d $base/source/paraview/ParaView/ThirdParty/protobuf/vtkprotobuf < protobuf_xlc.patch
 }
 
 
@@ -296,7 +300,7 @@ $make_command
 do_paraview_build_hosttools()
 {
 cd $base/source/paraview/build-hosttools
-$make_command pvHostTools
+$make_command pvCompileTools
 }
 
 do_paraview_build_cross()
@@ -365,6 +369,21 @@ do_newpv()
   do_paraview_download_git
   do_justpv
 }
+
+do_justpycross()
+{
+setup_native_compilers
+setup_cross_compilers
+do_python_build_cross
+}
+
+do_justmesacross()
+{
+setup_native_compilers
+setup_cross_compilers
+do_osmesa_build_cross
+}
+
 
 # this line is needed so that the "module" command will work
 #source /opt/modules/default/init/bash

@@ -18,9 +18,9 @@ set_bgl_options()
 
 set_bgp_options()
 {
-  base=/scratch/demarle/autobuildxlc/buildXLC
+  base=/scratch/demarle/autobuildxlc/newbuild
   toolchain_file=BlueGeneP-xl-static.cmake
-  make_command="make -j2"
+  make_command="nice make -j4"
   paraview_cross_cxx_flags="-O2"
   osmesa_config_name=bgp-osmesa-xlc
 }

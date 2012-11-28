@@ -16,7 +16,7 @@ fi
 
 $cmake_command \
 -DCMAKE_TOOLCHAIN_FILE=$toolchain_file \
--DParaView3CompileTools_DIR=$native_build_dir \
+-DParaViewCompileTools_DIR=$native_build_dir \
 -DBUILD_SHARED_LIBS=0 \
 -DPARAVIEW_USE_MPI=1 \
 -DPARAVIEW_ENABLE_PYTHON=1 \
@@ -26,15 +26,13 @@ $cmake_command \
 -DBUILD_TESTING=0 \
 \
 -DVTK_USE_SYSTEM_HDF5:BOOL=1 \
+-DHDF5_FOUND:BOOL=1 \
 -DHDF5_LIBRARIES:FILEPATH=\
 /soft/apps/current/hdf5-1.8.9/lib/libhdf5.a \
--DHDF5_LIBRARY:FILEPATH=\
-/soft/apps/current/hdf5-1.8.9/lib/libhdf5.a \
 -DHDF5_INCLUDE_DIRS:PATH=\
-/soft/apps/current/hdf5-1.8.9/include \
--DHDF5_INCLUDE_DIR:PATH=\
-/soft/apps/current/hdf5-1.8.9/include \
-\
+"/soft/apps/current/hdf5-1.8.9/include;"\
+"/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/default/include;"\
+"/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/sys/include" \
 -DVTK_USE_SYSTEM_ZLIB:BOOL=1 \
 -DZLIB_LIBRARY:FILEPATH=\
 /soft/apps/current/zlib-1.2.5/lib/libz.a \
@@ -53,22 +51,25 @@ $cmake_command \
 "$cxx_flags" \
 -DCMAKE_INSTALL_PREFIX:PATH="$paraview_install_dir" \
 -DPARAVIEW_BUILD_PLUGIN_AdiosReader:BOOL=OFF\
--DPARAVIEW_BUILD_PLUGIN_AnalyzeNIfTIReaderWriter:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_AnalyzeNIfTIIO:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_ArrowGlyph:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_ForceTime:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_H5PartReader:BOOL=OFF \
--DPARAVIEW_BUILD_PLUGIN_Manta:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_MantaView:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_Moments:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_Nektar:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_NonOrthogonalSource:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_PacMan:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_PointSprite:BOOL=OFF \
--DPARAVIEW_BUILD_PLUGIN_Prism:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_PrismPlugin:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_QuadView:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_SLACTools:BOOL=OFF \
--DPARAVIEW_BUILD_PLUGIN_SQToolkit:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_SciberQuestToolKit:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_SierraPlotTools:BOOL=OFF \
--DPARAVIEW_BUILD_PLUGIN_StreamingView:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_SurfaceLIC:BOOL=OFF \
+-DPARAVIEW_BUILD_PLUGIN_UncertaintyRendering:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_VaporPlugin:BOOL=OFF \
 -DPARAVIEW_BUILD_PLUGIN_pvblot:BOOL=OFF \
