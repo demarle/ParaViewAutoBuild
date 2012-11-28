@@ -17,3 +17,7 @@ diff -r Python-2.5.2/Python/dynload_shlib.c Python-2.5.2-cmakeified/Python/dynlo
 <       p = (dl_funcptr) dlsym(handle, funcname);
 ---
 >       p = (dl_funcptr) NULL;//dlsym(handle, funcname);
+diff -r Python-2.5.2/Modules/posixmodule.c Python-2.5.2-cmakeified/Modules/posixmodule.c
+3487a3488,3489
+> #undef HAVE_OPENPTY
+> #undef HAVE_FORKPTY
