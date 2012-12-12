@@ -18,7 +18,7 @@ set_bgl_options()
 
 set_bgp_options()
 {
-  base=/scratch/demarle/autobuildxlc/newbuild
+  base=/scratch/demarle/autobuildxlc/build
   toolchain_file=BlueGeneP-xl-static.cmake
   make_command="nice make -j4"
   paraview_cross_cxx_flags="-O2"

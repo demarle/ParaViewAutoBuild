@@ -22,7 +22,6 @@ $cmake_command \
 -DPARAVIEW_ENABLE_PYTHON=1 \
 -DPARAVIEW_BUILD_QT_GUI=0 \
 -DENABLE_MPI4PY=0 \
--DVTK_USE_X=0 \
 -DBUILD_TESTING=0 \
 \
 -DVTK_USE_SYSTEM_HDF5:BOOL=1 \
@@ -33,20 +32,29 @@ $cmake_command \
 "/soft/apps/current/hdf5-1.8.9/include;"\
 "/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/default/include;"\
 "/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/sys/include" \
+\
 -DVTK_USE_SYSTEM_ZLIB:BOOL=1 \
 -DZLIB_LIBRARY:FILEPATH=\
 /soft/apps/current/zlib-1.2.5/lib/libz.a \
 -DZLIB_INCLUDE_DIR:PATH=\
 /soft/apps/current/zlib-1.2.5/include \
 \
--DPYTHON_INCLUDE_DIR="$python_install_dir/include/python2.5" \
--DPYTHON_LIBRARY="$python_install_dir/lib/libpython2.5.a" \
+-DPYTHON_INCLUDE_DIR="$python_install_dir/include/python2.7" \
+-DPYTHON_LIBRARY="$python_install_dir/lib/libpython2.7.a" \
+\
+-DVTK_USE_X=0 \
 -DOPENGL_INCLUDE_DIR="$osmesa_install_dir/include" \
 -DOPENGL_gl_LIBRARY="" \
 -DOPENGL_glu_LIBRARY="$osmesa_install_dir/lib/libGLU.a" \
 -DVTK_OPENGL_HAS_OSMESA=1 \
 -DOSMESA_LIBRARY="$osmesa_install_dir/lib/libOSMesa.a" \
 -DOSMESA_INCLUDE_DIR="$osmesa_install_dir/include" \
+\
+-DPARAVIEW_USE_VISITBRIDGE:BOOL=ON \
+-DBoost_DIR:PATH="$boost_install_dir" \
+-DBoost_INCLUDE_DIR:PATH="$boost_install_dir/include" \
+-DBoost_NO_SYSTEM_PATHS:BOOL=ON \
+\
 -DCMAKE_BUILD_TYPE:STRING="Release" \
 "$cxx_flags" \
 -DCMAKE_INSTALL_PREFIX:PATH="$paraview_install_dir" \

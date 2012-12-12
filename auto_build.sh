@@ -26,8 +26,9 @@ git_install_dir=$install_base/git-1.7.3
 cmake_install_dir=$install_base/cmake-git
 osmesa_install_dir=$install_base/osmesa-7.6.1
 osmesa_xinstall_dir=$xinstall_base/osmesa-7.6.1
-python_install_dir=$install_base/python-2.5.2
-python_xinstall_dir=$xinstall_base/python-2.5.2
+python_install_dir=$install_base/python-2.7.3
+python_xinstall_dir=$xinstall_base/python-2.7.3
+boost_install_dir=$install_base/boost-1.49.0
 paraview_install_dir=$install_base/paraview
 paraview_xinstall_dir=$xinstall_base/paraview
 
@@ -127,8 +128,9 @@ do_python_download()
 {
 mkdir -p $base/source/python
 cd $base/source/python
-package=Python-2.5.2
-grab http://www.python.org/ftp/python/2.5.2 $package.tgz
+package=Python-2.7.3
+#wget http://www.python.org/ftp/python/2.7.3/$package.tgz
+grab http://www.python.org/ftp/python/2.7.3 $package.tgz
 rm -rf $package
 tar -zxf $package.tgz
 }
@@ -136,7 +138,7 @@ tar -zxf $package.tgz
 do_python_build_native()
 {
 cd $base/source/python
-source=Python-2.5.2
+source=Python-2.7.3
 rm -rf build-native
 mkdir build-native
 cd build-native
@@ -148,18 +150,15 @@ $make_command && make install
 do_python_build_cross()
 {
 cd $base/source/python
-source=Python-2.5.2
-
-#now cmakeify python to make it easier to cross compile
+source=Python-2.7.3
 rm -rf $source-cmakeified
 cp -r $source $source-cmakeified
 source=$source-cmakeified
-cp $script_dir/add_cmake_files_to_python2-5-2.patch ./
-patch -p1 -d $source < add_cmake_files_to_python2-5-2.patch
+cp $script_dir/add_cmake_files_to_python2-7-3.patch ./
+patch -p4 -d  $source < add_cmake_files_to_python2-7-3.patch
 
-#a hack to remove dyld on this platform
 cp $script_dir/python_xlc.patch ./
-patch -p1 -d $base/source/python < python_xlc.patch
+patch -p4 -d $source < python_xlc.patch
 
 rm -rf build-cross
 mkdir build-cross
@@ -222,6 +221,19 @@ sed -i.original -e 's|linux-osmesa-static|'$osmesa_config_name'|g' Makefile
 sed -i.original -e 's|INSTALL_DIR = /usr/local|INSTALL_DIR = '$osmesa_xinstall_dir'|g' configs/default
 
 $make_command $osmesa_config_name && make install
+}
+
+do_boost()
+{
+rm -rf $base/source/boost
+mkdir -p $base/source/boost
+cd $base/source/boost
+package=boost_1_49_0
+grab http://sourceforce.net/projects/boost/1.49.0 $package.tar.gz
+tar -zxf $package.tar.gz
+cd $package
+./bootstrap.sh
+./b2 install --prefix=$boost_install_dir
 }
 
 do_paraview_download()
@@ -319,6 +331,7 @@ do_python_download
 do_python_build_native
 do_osmesa_download
 do_osmesa_build_native
+do_boost
 #do_paraview_download
 do_paraview_download_git
 }
@@ -366,13 +379,15 @@ do_paraview_build_cross
 
 do_newpv()
 {
-  do_paraview_download_git
-  do_justpv
+do_paraview_download_git
+do_justpv
 }
 
 do_justpycross()
 {
 setup_native_compilers
+do_python_download
+do_python_build_native
 setup_cross_compilers
 do_python_build_cross
 }
