@@ -17,8 +17,8 @@ $cmake_command \
 -DVTK_USE_X=0 \
 -DBUILD_TESTING=0 \
 -DPYTHON_EXECUTABLE="$python_install_dir/bin/python" \
--DPYTHON_INCLUDE_DIR="$python_install_dir/include/python2.5" \
--DPYTHON_LIBRARY="$python_install_dir/lib/libpython2.5.so" \
+-DPYTHON_INCLUDE_DIR="$python_install_dir/include/python2.7" \
+-DPYTHON_LIBRARY="$python_install_dir/lib/libpython2.7.so" \
 -DOPENGL_INCLUDE_DIR="$osmesa_install_dir/include" \
 -DOPENGL_gl_LIBRARY="" \
 -DOPENGL_glu_LIBRARY="$osmesa_install_dir/lib/libGLU.so" \
