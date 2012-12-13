@@ -4,10 +4,11 @@ paraview_source_dir=$1
 paraview_install_dir=$2
 osmesa_install_dir=$3
 python_install_dir=$4
-cmake_command=$5
-toolchain_file=$6
-native_build_dir=$7
-cxx_flags=$8
+boost_install_dir=$5
+cmake_command=$6
+toolchain_file=$7
+native_build_dir=$8
+cxx_flags=$9
 
 if [ ! -z "$cxx_flags" ]; then
   cxx_flags=-DCMAKE_CXX_FLAGS_RELEASE:STRING=\"$cxx_flags\"
